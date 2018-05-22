@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import Pojo.Credencial;
+import Dao.DefaultArrayModel;
 /**
  *
  * @author kevin
@@ -149,7 +150,7 @@ public class CredencialFile {
             model.addElement(e);
         }
         close();
-        return Arrays.copyOf(model.toArray(), model.size(), Credentials [].class);
+        return Arrays.copyOf(model.toArray(), model.size(), Credencial [].class);
     }
     
     public int lastAccount() throws IOException{
