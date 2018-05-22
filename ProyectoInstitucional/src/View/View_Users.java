@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luisangelmarcia
  */
-public class View_Users extends javax.swing.JFrame {
+public class View_Users extends javax.swing.JInternalFrame {
 
     StudentFile st = new StudentFile();
     CredencialFile cf = new CredencialFile();
@@ -193,10 +193,10 @@ public class View_Users extends javax.swing.JFrame {
 
     private void btnRegistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrerActionPerformed
         // TODO add your handling code here:
-        if (idTxt.getText().isEmpty() || userTxt.getText().isEmpty()||passTxt.getPassword() == null) {
+        if (idTxt.getText().isEmpty() || userTxt.getText().isEmpty() || passTxt.getPassword() == null) {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }else{
-            
+        } else {
+
             try {
                 String user = userTxt.getText();
                 String password = new String(passTxt.getPassword());
@@ -211,12 +211,13 @@ public class View_Users extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnRegistrerActionPerformed
-private void componentes(boolean t){
-    userTxt.setEnabled(t);
-    passTxt.setEnabled(t);
-    btnCancel.setEnabled(t);
-    btnRegistrer.setEnabled(t);
-}
+    private void componentes(boolean t) {
+        userTxt.setEnabled(t);
+        passTxt.setEnabled(t);
+        btnCancel.setEnabled(t);
+        btnRegistrer.setEnabled(t);
+    }
+
     private void mostrarEstudiante() throws IOException {
         if (st.findAll() != null) {
             try {
@@ -227,12 +228,26 @@ private void componentes(boolean t){
                         dTblModel.removeRow(0);
                     }
                 }
+                CredencialFile cs = new CredencialFile();
                 Student[] listado = st.findAll();
-                for (int i = 0; i < listado.length; ++i) {
-                    dTblModel.addRow(new Object[]{listado[i].getIdStudent(),
-                        listado[i].getName(), listado[i].getLastName(),
-                        listado[i].getDocId(), listado[i].getPhone(),
-                        listado[i].getAddress()});
+                Credencial[] cre = cs.findAll();
+                for (Credencial credencial : cre) {
+                    for (Student student : listado) {
+                        if (student.getIdStudent() != credencial.getIdCredencial()) {
+                            dTblModel.addRow(new Object[]{student.getIdStudent(),
+                                student.getName(), student.getLastName(),
+                                student.getDocId(), student.getPhone(),
+                                student.getAddress()});
+                        }
+                        if (jTable1.getRowCount() == 0) {
+                            
+                            JOptionPane.showMessageDialog(rootPane,
+                                    "No hay Estudiante Sin Credencial",
+                                    "Informacion",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                        }
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(View_Users.class.getName()).log(Level.SEVERE, null, ex);

@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luisangelmarcia
  */
-public class Actualizar_Estudiante extends javax.swing.JFrame {
+public class Actualizar_Estudiante extends javax.swing.JInternalFrame {
 
     StudentFile st = new StudentFile();
     /**

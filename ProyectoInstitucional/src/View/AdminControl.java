@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package View;
-import View.*;
+
+import javax.swing.JInternalFrame;
+
 /**
  *
  * @author luisangelmarcia
@@ -29,7 +31,7 @@ public class AdminControl extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jdesk = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -39,14 +41,14 @@ public class AdminControl extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jdeskLayout = new javax.swing.GroupLayout(jdesk);
+        jdesk.setLayout(jdeskLayout);
+        jdeskLayout.setHorizontalGroup(
+            jdeskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jdeskLayout.setVerticalGroup(
+            jdeskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 279, Short.MAX_VALUE)
         );
 
@@ -74,7 +76,7 @@ public class AdminControl extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Eliminar");
+        jMenu3.setText("Administrar Usuarios");
         jMenu3.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
@@ -104,11 +106,11 @@ public class AdminControl extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jdesk)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jdesk)
         );
 
         pack();
@@ -121,18 +123,38 @@ public class AdminControl extends javax.swing.JFrame {
 
     private void jMenu1MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu1MenuSelected
         // TODO add your handling code here:
-        
+
+        Registrar_Estudiante r = new Registrar_Estudiante();
+
+        r.setVisible(true);
+        jdesk.add(r);
+
+
     }//GEN-LAST:event_jMenu1MenuSelected
 
     private void jMenu2MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu2MenuSelected
         // TODO add your handling code here:
+
         Actualizar_Estudiante a = new Actualizar_Estudiante();
         a.setVisible(true);
+        jdesk.add(a);
     }//GEN-LAST:event_jMenu2MenuSelected
 
     private void jMenu3MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu3MenuSelected
         // TODO add your handling code here:
+        View_Users vs = new View_Users();
+        vs.setVisible(true);
+        jdesk.add(vs);
+
     }//GEN-LAST:event_jMenu3MenuSelected
+
+    private void ocupado() {
+
+        JInternalFrame[] activos = jdesk.getAllFrames();
+        if () {
+
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -170,11 +192,11 @@ public class AdminControl extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    public static javax.swing.JDesktopPane jdesk;
     // End of variables declaration//GEN-END:variables
 }
