@@ -4,7 +4,13 @@
  * and open the template in the editor.
  */
 package View;
-
+import Util.Hash;
+import Dao.CredencialFile;
+import Pojo.Credencial;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author luisangelmarcia
@@ -47,6 +53,11 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("Contraseña");
 
         jButton1.setText("Ingresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jSplitPane1.setLeftComponent(jButton1);
 
         jButton2.setText("Salir");
@@ -64,9 +75,6 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -78,7 +86,11 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(141, 141, 141)
                         .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(195, 195, 195)
+                .addComponent(jLabel1)
+                .addGap(56, 227, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,6 +117,41 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            
+            try{
+                Credencial crede = new Credencial(0, "Admin", "21232f297a57a5a743894a0e4a801fc3");
+            
+
+            String contra = new String(this.passTxtField.getPassword());
+            char[] contraChar = new char[32];
+            contraChar = Hash.MD5hash(contra).toCharArray();
+            String con = Hash.MD5hash(contra);
+
+            String usuario = this.userTxtField.getText();
+            if (this.userTxtField.getText().isEmpty() || this.passTxtField.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(null, "Complete Todos Los Campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (usuario.equalsIgnoreCase(crede.getUser()) && crede.VerificarPass(contraChar)) {
+                JOptionPane.showMessageDialog(null, "Bienvenido Administrador " , "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+                
+                
+                AdminControl a = new AdminControl();
+                a.setVisible(true);
+                this.dispose();
+                return;
+            }
+
+            JOptionPane.showMessageDialog(rootPane, "El Usuario o Contraseña no son Correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            }catch(NoSuchAlgorithmException ex){
+                Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+            
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

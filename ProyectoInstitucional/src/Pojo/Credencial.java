@@ -5,6 +5,8 @@
  */
 package Pojo;
 
+import java.util.Arrays;
+
 /**
  *
  * @author kevin
@@ -47,4 +49,8 @@ public class Credencial {
         this.Pass = Pass;
     }
 
+    public boolean VerificarPass(char [] password){
+        return(Arrays.equals(password, this.getPass().toCharArray())) ? true : false;
+    }
+    
 }
