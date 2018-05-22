@@ -5,6 +5,11 @@
  */
 package View;
 
+import Dao.StudentFile;
+import Pojo.Student;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,12 +18,19 @@ import javax.swing.JOptionPane;
  */
 public class Registrar_Estudiante extends javax.swing.JDialog {
 
+    StudentFile sf = new StudentFile();
+
     /**
      * Creates new form Registrar_Estudiante
      */
     public Registrar_Estudiante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        try {
+            initComponents();
+            this.txtID.setText("" + (sf.finalAccount() + 1));
+        } catch (IOException ex) {
+            Logger.getLogger(Registrar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -170,8 +182,20 @@ public class Registrar_Estudiante extends javax.swing.JDialog {
                 || txtCedula.getText().isEmpty() || txtTelefono.getText().isEmpty()
                 || txtDireecion.getText().isEmpty()) {
 
-            JOptionPane.showMessageDialog(this, "Llene Todos Los Campos");
+            JOptionPane.showMessageDialog(rootPane, "Llene todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
         } else {
+            try {
+                Student student = new Student(Integer.parseInt(txtID.getText()),
+                        txtNombre.getText(), txtApellido.getText(),
+                        txtCedula.getText(), txtTelefono.getText(),
+                        txtDireecion.getText());
+                sf.create(student);
+                this.txtID.setText(""+(sf.finalAccount() + 1));
+                JOptionPane.showMessageDialog(rootPane, "Estudiante Registrado", "Guardo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(Registrar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
     }//GEN-LAST:event_btnResgistrarActionPerformed
