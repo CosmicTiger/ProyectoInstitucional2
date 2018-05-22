@@ -148,14 +148,6 @@ public class AdminControl extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenu3MenuSelected
 
-    private void ocupado() {
-
-        JInternalFrame[] activos = jdesk.getAllFrames();
-        if () {
-
-        }
-    }
-
     /**
      * @param args the command line arguments
      */
