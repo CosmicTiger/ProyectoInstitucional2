@@ -5,19 +5,54 @@
  */
 package View;
 
+import Dao.StudentFile;
+import Pojo.Student;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luisangelmarcia
  */
 public class Actualizar_Estudiante extends javax.swing.JFrame {
 
+    StudentFile st = new StudentFile();
     /**
      * Creates new form Actualizar_Estudiante
      */
     public Actualizar_Estudiante() {
-        initComponents();
+        try {
+            initComponents();
+            componentes(false);
+            mostrarEstudiante();
+        } catch (IOException ex) {
+            Logger.getLogger(Actualizar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+     private void mostrarEstudiante() throws IOException {
+        if (st.findAll() != null) {
+            try {
+                DefaultTableModel dTblModel = (DefaultTableModel) this.jTable1.getModel();
+                if (dTblModel.getRowCount() >= 1) {
+                    int row = dTblModel.getRowCount() - 1;
+                    for (int i = 0; i <= row; i++) {
+                        dTblModel.removeRow(0);
+                    }
+                }
+                Student[] listado = st.findAll();
+                for (int i = 0; i < listado.length; ++i) {
+                    dTblModel.addRow(new Object[]{listado[i].getIdStudent(), listado[i].getName(), listado[i].getLastName(), listado[i].getDocId(), listado[i].getPhone(), listado[i].getAddress()});
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Actualizar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,10 +78,6 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
         apellidoTxt = new javax.swing.JTextField();
         cedulaTxt = new javax.swing.JFormattedTextField();
         telefonoTxt = new javax.swing.JFormattedTextField();
-        jLabel7 = new javax.swing.JLabel();
-        userTxt = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        passTxt = new javax.swing.JPasswordField();
         jSplitPane1 = new javax.swing.JSplitPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -78,6 +109,11 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
                 "ID", "Nombre", "Apellido", "Cédula de Identidad", "Teléfono", "Dirección"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable1MousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         direccionTxt.setColumns(20);
@@ -95,10 +131,6 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-
-        jLabel7.setText("Usuario");
-
-        jLabel8.setText("Contraseña");
 
         jButton1.setText("Actualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -131,29 +163,20 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cedulaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29)
+                            .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(nombreTxt))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(apellidoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(46, 46, 46)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userTxt)
-                            .addComponent(passTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nombreTxt))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(apellidoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,15 +200,11 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(userTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
-                                    .addComponent(nombreTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(passTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(nombreTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
@@ -239,7 +258,57 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if (idTxt.getText().isEmpty()|| nombreTxt.getText().isEmpty()
+                ||apellidoTxt.getText().isEmpty()||cedulaTxt.getText().isEmpty()
+                ||telefonoTxt.getText().isEmpty()||
+                direccionTxt.getText().isEmpty()) {
+             JOptionPane.showMessageDialog(rootPane, "Llene todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                Student student = new Student( Integer.parseInt(idTxt.getText()), nombreTxt.getText(),
+                        apellidoTxt.getText(), cedulaTxt.getText()
+                        , telefonoTxt.getText(), direccionTxt.getText());
+                st.update(student);
+                mostrarEstudiante();
+                componentes(false);
+                 JOptionPane.showMessageDialog(rootPane, "Estudiante Actualizado", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(Actualizar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+      
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void componentes(boolean  t){
+        idTxt.setEnabled(t);
+        nombreTxt.setEnabled(t);
+        apellidoTxt.setEnabled(t);
+        telefonoTxt.setEnabled(t);
+        cedulaTxt.setEnabled(t);
+        direccionTxt.setEnabled(t);
+    }
+    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        // TODO add your handling code here:
+         try {
+            int fsel = jTable1.getSelectedRow();
+            if (fsel != -1) {
+                int idSeller = Integer.parseInt(jTable1.getValueAt(fsel, 0).toString());
+                Student s = st.findById(idSeller);
+                if (s != null) {
+                    componentes(true);
+                   idTxt.setText(""+s.getIdStudent());
+                   nombreTxt.setText(s.getName());
+                   apellidoTxt.setText(s.getLastName());
+                   telefonoTxt.setText(s.getPhone());
+                   cedulaTxt.setText(s.getDocId());
+                   direccionTxt.setText(s.getAddress());
+                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Actualizar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable1MousePressed
 
     /**
      * @param args the command line arguments
@@ -289,16 +358,12 @@ public class Actualizar_Estudiante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField nombreTxt;
-    private javax.swing.JPasswordField passTxt;
     private javax.swing.JFormattedTextField telefonoTxt;
-    private javax.swing.JTextField userTxt;
     // End of variables declaration//GEN-END:variables
 }
