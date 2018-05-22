@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package View;
-import Util.Hash;
+
 import Dao.CredencialFile;
+import Util.Hash;
 import Pojo.Credencial;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author luisangelmarcia
@@ -119,10 +122,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            
-            try{
-                Credencial crede = new Credencial(0, "Admin", "21232f297a57a5a743894a0e4a801fc3");
-            
+
+        try {
+            Credencial crede = new Credencial(0, "Admin", "21232f297a57a5a743894a0e4a801fc3");
 
             String contra = new String(this.passTxtField.getPassword());
             char[] contraChar = new char[32];
@@ -136,21 +138,32 @@ public class Login extends javax.swing.JFrame {
             }
 
             if (usuario.equalsIgnoreCase(crede.getUser()) && crede.VerificarPass(contraChar)) {
-                JOptionPane.showMessageDialog(null, "Bienvenido Administrador " , "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-                
-                
+                JOptionPane.showMessageDialog(null, "Bienvenido Administrador ", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+
                 AdminControl a = new AdminControl();
                 a.setVisible(true);
                 this.dispose();
                 return;
             }
+            CredencialFile cf = new CredencialFile();
+            Credencial[] ac = cf.findAll();
+            for (Credencial credencial : ac) {
+                if (credencial.getUser().equals(usuario) && credencial.getPass().equals(con)) {
+                    AdminControl a = new AdminControl();
+                    a.setVisible(true);
+                    this.dispose();
+                    return;
+                }
+            }
 
             JOptionPane.showMessageDialog(rootPane, "El Usuario o Contraseña no son Correcto", "Error", JOptionPane.ERROR_MESSAGE);
-            }catch(NoSuchAlgorithmException ex){
-                Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

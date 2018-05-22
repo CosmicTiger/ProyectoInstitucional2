@@ -183,7 +183,6 @@ public class Registrar_Estudiante extends javax.swing.JDialog {
                 || txtDireecion.getText().isEmpty()) {
 
             JOptionPane.showMessageDialog(rootPane, "Llene todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
         } else {
             try {
                 Student student = new Student(Integer.parseInt(txtID.getText()),
@@ -191,7 +190,7 @@ public class Registrar_Estudiante extends javax.swing.JDialog {
                         txtCedula.getText(), txtTelefono.getText(),
                         txtDireecion.getText());
                 sf.create(student);
-                this.txtID.setText(""+(sf.finalAccount() + 1));
+                this.txtID.setText("" + (sf.finalAccount() + 1));
                 JOptionPane.showMessageDialog(rootPane, "Estudiante Registrado", "Guardo", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 Logger.getLogger(Registrar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);

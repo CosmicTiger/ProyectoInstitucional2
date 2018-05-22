@@ -57,8 +57,8 @@ public class CredencialFile {
         long pos = 4 + n * SIZE;
         rCredentials.seek(pos);
         rCredentials.writeInt(c.getIdCredencial());
-        rCredentials.writeUTF(setStringLength(c.getUser(), 10));
-        rCredentials.writeUTF(setStringLength(c.getPass(), 15));
+        rCredentials.writeUTF(setStringLength(c.getUser(), 32));
+        rCredentials.writeUTF(setStringLength(c.getPass(), 32));
         rCredentials.seek(0);
         rCredentials.writeInt(++n);
         close();

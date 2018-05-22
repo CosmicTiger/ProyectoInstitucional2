@@ -16,23 +16,26 @@ import Pojo.Credencial;
  * @author luisangelmarcia
  */
 public class Hash {
-    public Hash(){}
+    public Hash(){
     
-    public static String MD5hash(String text) throws NoSuchAlgorithmException{
+    }
+    
+    
+   public static String MD5hash(String text) throws NoSuchAlgorithmException { //md5.cz
         byte[] text2Byte = text.getBytes();
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(text2Byte);
         byte[] bytesResult = md.digest();
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < bytesResult.length; i++)
-            sb.append(Integer.toString((bytesResult[i] & 0xff)+ 0x100, 16).substring(1));
-        
+        for (int i = 0; i < bytesResult.length; i++) {
+            sb.append(Integer.toString((bytesResult[i] & 0xff) + 0x100, 16).substring(1));
+        }
         return sb.toString();
     }
     
     public static void main(String [] args) throws NoSuchAlgorithmException{
         CredencialFile cf = new CredencialFile();
-        System.out.println("Contraseña "+ MD5hash("admin"));
+        System.out.println("Contraseña "+ MD5hash("123"));
     }
     
 }

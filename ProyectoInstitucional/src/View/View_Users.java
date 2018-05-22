@@ -8,25 +8,30 @@ package View;
 import java.io.IOException;
 import Dao.*;
 import Pojo.*;
+import Util.Hash;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luisangelmarcia
  */
 public class View_Users extends javax.swing.JFrame {
 
-    StudentFile st;
-    
+    StudentFile st = new StudentFile();
+    CredencialFile cf = new CredencialFile();
+
     /**
      * Creates new form View_Users
      */
     public View_Users() {
         try {
             initComponents();
-            mostrarUsuarios();
+            mostrarEstudiante();
+            componentes(false);
         } catch (IOException ex) {
             Logger.getLogger(View_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,7 +55,8 @@ public class View_Users extends javax.swing.JFrame {
         userTxt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         idTxt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnRegistrer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,10 +84,17 @@ public class View_Users extends javax.swing.JFrame {
 
         jLabel3.setText("ID");
 
-        jButton1.setText("Salir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        btnRegistrer.setText("Registrar");
+        btnRegistrer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrerActionPerformed(evt);
             }
         });
 
@@ -92,42 +105,51 @@ public class View_Users extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(passTxt)
-                        .addComponent(userTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
-                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(passTxt)
+                                .addComponent(userTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                            .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(btnRegistrer)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnCancel)))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(userTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(passTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegistrer)
+                            .addComponent(btnCancel))))
                 .addContainerGap(37, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(userTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(passTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(139, 139, 139))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,18 +168,56 @@ public class View_Users extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
-        int fsel = jTable1.getSelectedRow();
-        int id = Integer.parseInt(jTable1.getValueAt(fsel, 0).toString());
-        idTxt.setText("");
+        try {
+            int fsel = jTable1.getSelectedRow();
+            if (fsel != -1) {
+                int idSeller = Integer.parseInt(jTable1.getValueAt(fsel, 0).toString());
+                Student s = st.findById(idSeller);
+                if (s != null) {
+                    componentes(true);
+                    jTable1.setEnabled(false);
+                    idTxt.setText("" + s.getIdStudent());
+                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Actualizar_Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MousePressed
 
-    private void mostrarUsuarios() throws IOException{
+    private void btnRegistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrerActionPerformed
+        // TODO add your handling code here:
+        if (idTxt.getText().isEmpty() || userTxt.getText().isEmpty()||passTxt.getPassword() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Llene todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            try {
+                String user = userTxt.getText();
+                String password = new String(passTxt.getPassword());
+                String contra = Hash.MD5hash(password);
+                Credencial cr = new Credencial(Integer.parseInt(idTxt.getText()), user, contra);
+                cf.create(cr);
+                mostrarEstudiante();
+                componentes(false);
+                JOptionPane.showMessageDialog(rootPane, "Usuario Agregado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NoSuchAlgorithmException | IOException ex) {
+                Logger.getLogger(View_Users.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnRegistrerActionPerformed
+private void componentes(boolean t){
+    userTxt.setEnabled(t);
+    passTxt.setEnabled(t);
+    btnCancel.setEnabled(t);
+    btnRegistrer.setEnabled(t);
+}
+    private void mostrarEstudiante() throws IOException {
         if (st.findAll() != null) {
             try {
                 DefaultTableModel dTblModel = (DefaultTableModel) this.jTable1.getModel();
@@ -169,16 +229,18 @@ public class View_Users extends javax.swing.JFrame {
                 }
                 Student[] listado = st.findAll();
                 for (int i = 0; i < listado.length; ++i) {
-                    dTblModel.addRow(new Object[]{listado[i].getIdStudent(), listado[i].getName(), listado[i].getLastName(), listado[i].getDocId(), listado[i].getPhone(), listado[i].getAddress()});
+                    dTblModel.addRow(new Object[]{listado[i].getIdStudent(),
+                        listado[i].getName(), listado[i].getLastName(),
+                        listado[i].getDocId(), listado[i].getPhone(),
+                        listado[i].getAddress()});
                 }
             } catch (IOException ex) {
                 Logger.getLogger(View_Users.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-        
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -215,8 +277,9 @@ public class View_Users extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnRegistrer;
     private javax.swing.JTextField idTxt;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
